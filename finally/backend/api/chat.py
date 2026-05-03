@@ -15,6 +15,24 @@ from llm.prompt import build_system_prompt
 router = APIRouter()
 
 
+@router.get("/chat/history")
+async def get_chat_history():
+    async with aiosqlite.connect(DB_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        cursor = await db.execute(
+            "SELECT role, content, actions FROM chat_messages WHERE user_id = 'default' ORDER BY rowid LIMIT 100"
+        )
+        rows = await cursor.fetchall()
+    return [
+        {
+            "role": r["role"],
+            "content": r["content"],
+            "actions": json.loads(r["actions"]) if r["actions"] else None,
+        }
+        for r in rows
+    ]
+
+
 class ChatRequest(BaseModel):
     message: str
 
