@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+from api.chat import router as chat_router
 from api.health import router as health_router
 from api.portfolio import router as portfolio_router
 from api.stream import router as stream_router
@@ -35,6 +36,7 @@ app.include_router(health_router, prefix="/api")
 app.include_router(stream_router, prefix="/api")
 app.include_router(watchlist_router, prefix="/api")
 app.include_router(portfolio_router, prefix="/api")
+app.include_router(chat_router, prefix="/api")
 
 static_dir = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(static_dir):
