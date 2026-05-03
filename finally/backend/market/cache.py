@@ -1,6 +1,8 @@
 import asyncio
 from datetime import datetime, timezone
 
+from cache.prices import set_price
+
 
 class PriceCache:
     """In-memory price cache: ticker -> {price, prev_price, timestamp, direction}."""
@@ -20,6 +22,8 @@ class PriceCache:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "direction": direction,
             }
+        # Sync with global cache for simple lookup in API routers
+        set_price(ticker, new_price)
 
     async def get(self, ticker: str) -> dict | None:
         async with self._lock:

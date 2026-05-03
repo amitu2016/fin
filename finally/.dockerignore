@@ -1,0 +1,35 @@
+# Build artifacts
+**/node_modules
+**/.next
+**/out
+**/build
+**/dist
+
+# Python artifacts
+**/__pycache__
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.venv
+**/.pytest_cache
+**/.coverage
+**/.mypy_cache
+**/.ruff_cache
+
+# Database
+**/*.db
+**/*.db-journal
+**/*.db-shm
+**/*.db-wal
+
+# Environment files
+.env
+.env.local
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
