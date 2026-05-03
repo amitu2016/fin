@@ -7,7 +7,7 @@ import aiosqlite
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from cache.prices import get_price, get_all as get_all_prices
+from cache.prices import get_price
 from db.schema import DB_PATH
 from llm.client import call_llm
 from llm.prompt import build_system_prompt
@@ -72,7 +72,7 @@ async def _load_portfolio_context(db: aiosqlite.Connection) -> dict:
 async def _load_chat_history(db: aiosqlite.Connection) -> list[dict]:
     db.row_factory = aiosqlite.Row
     cursor = await db.execute(
-        "SELECT role, content FROM chat_messages WHERE user_id = 'default' ORDER BY created_at DESC LIMIT 20"
+        "SELECT role, content FROM chat_messages WHERE user_id = 'default' ORDER BY rowid DESC LIMIT 20"
     )
     rows = await cursor.fetchall()
     return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]
